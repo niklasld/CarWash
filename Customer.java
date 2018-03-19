@@ -22,7 +22,7 @@ public class Customer {
       //TODO
    }
    
-   public double getBalance() {
+   public double checkBalance() {
       
       return cardBalance;
    }
