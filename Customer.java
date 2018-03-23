@@ -48,7 +48,7 @@ public class Customer {
    
       System.out.println("Do you want to RETURN or EXIT?");
       Scanner scanner = new Scanner(System.in);
-      String Continue.toLowerCase() = scanner.nextLine();
+      String Continue = scanner.nextLine();
       
       if(Continue.equals("exit")){
          
@@ -66,16 +66,12 @@ public class Customer {
    
    }
    
-<<<<<<< HEAD
    public void mainMenu(){
    
       System.out.println("MAIN MENU: Please select one of the following options...");
       System.out.println("Recharge Washcard | Get balance | Buy wash | Show statistics");
       Scanner scanner = new Scanner(System.in);
       String action = scanner.nextLine();
-=======
-   public double checkBalance() {
->>>>>>> 36e55c7c1399e7dd3cd0df49ab4e263ff4eb2839
       
       switch(action.toLowerCase()) {
          case "recharge":
