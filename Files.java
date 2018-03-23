@@ -108,7 +108,7 @@ public class Files {
             e.printStackTrace();
          }
       }
-      else if(type == "Customer") {
+      else if(type == "Customers") {
          try {
             FileWriter fileW = new FileWriter(type+".txt",true);
             BufferedWriter buffW = new BufferedWriter(fileW);
