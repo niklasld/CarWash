@@ -24,7 +24,7 @@ public class Files {
          }
       }
       //checks if the Customers.txt file exists, it it doesnt it will try and create the file
-      else if(!usersFile.exists()) {
+      if(!usersFile.exists()) {
          try {
             users = new Formatter("Customers.txt");
          }
@@ -52,12 +52,9 @@ public class Files {
             while(scanFile.hasNext()) {
             
                String ID = scanFile.next();
-               String firstName = scanFile.next();
-               String lastName = scanFile.next();
-               String sex = scanFile.next();
-               String age = scanFile.next();
+               int balance = scanFile.nextInt();
                
-               System.out.printf("%s %s %s %s %s\n", ID, firstName, lastName, sex, age);
+               System.out.printf("ID: %s Balance: %s \n", ID, balance);
             }
             break;
       
