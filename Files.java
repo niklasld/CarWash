@@ -11,11 +11,11 @@ public class Files {
    public void createFile() {
       //creates 2 formatter objects, these are final(cannot be changed)
       final Formatter washStats, users;
-      File wStatsFile = new File("Washstats.txt");
+      File StatsFile = new File("Washstats.txt");
       File usersFile = new File("Customers.txt");
 
       //checks if the Washstats.txt file exists, it it doesnt it will try and create the file
-      if(!wStatsFile.exists()) {
+      if(!StatsFile.exists()) {
          try {
             washStats = new Formatter("Washstats.txt");
          }
@@ -47,14 +47,13 @@ public class Files {
    //creates the method readFile takes the input(type) to use in the switch case so that it knows what file its working with
    public void readFile(String type) {
       switch(type) {
-         case "Costumers" :
-            System.out.println("Costumers: ");
+         case "Customers" :
+            //System.out.println("Customers: ");
             while(scanFile.hasNext()) {
-            
                String ID = scanFile.next();
                int balance = scanFile.nextInt();
-               
-               System.out.printf("ID: %s Balance: %s Pin: %s \n", ID, balance, pin);
+               int pin = scanFile.nextInt();
+               //System.out.printf("ID: %s Balance: %s Pin: %s \n",ID, balance, pin);
             }
             break;
       
@@ -87,7 +86,7 @@ public class Files {
             break;
          
          default:
-            System.out.println("Error");
+            System.out.println("Error something with readFile");
             break;
       }
    }
@@ -95,7 +94,7 @@ public class Files {
       scanFile.close();
    }
    
-   public void addToFile(String type, String ID, String washType, String features, String price, String balance) {
+   public void addToFile(String type, String ID, String washType, String features, String price, String balance, int pin) {
       if(type == "Washstats") {
          try {
             FileWriter fileW = new FileWriter(type+".txt",true);
@@ -112,7 +111,7 @@ public class Files {
          try {
             FileWriter fileW = new FileWriter(type+".txt",true);
             BufferedWriter buffW = new BufferedWriter(fileW);
-            buffW.write(ID+" "+balance+"\n");
+            buffW.write(ID+" "+balance+" "+pin+"\n");
             buffW.close();
             System.out.println("Wrote to file "+type+".txt");
          }

@@ -1,20 +1,23 @@
 import java.util.*;
 
 public class Customer {
-   private double cardBalance = 0;
+   private int cardBalance = 0;
    private int ID = 0;
    private int pin;
    private int run = 1;
    
-   public Customer(double cardBalance, int ID) {
+   public Customer(int cardBalance, String ID) {
       if(cardBalance>=200) {
-         this.cardBalance = cardBalance;
-         this.ID = ID;
-         
+         Files file = new Files();
+         file.openFile("Customers.txt");
+         //this.cardBalance = cardBalance;
+         //this.ID = ID;
          Random generator = new Random();
          this.pin = generator.nextInt(10000);
          System.out.println(pin);
-         
+         String balance = Integer.toString(cardBalance);
+         file.addToFile("Customers",ID,"","","",balance,this.pin);
+         file.closeFile();     
       }
       else {
          System.out.println("Must at least deposit 200 DKr.");
