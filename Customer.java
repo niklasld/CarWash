@@ -3,12 +3,18 @@ import java.util.*;
 public class Customer {
    private double cardBalance = 0;
    private int ID = 0;
+   private int pin;
    private int run = 1;
    
    public Customer(double cardBalance, int ID) {
       if(cardBalance>=200) {
          this.cardBalance = cardBalance;
          this.ID = ID;
+         
+         Random generator = new Random();
+         this.pin = generator.nextInt(10000);
+         System.out.println(pin);
+         
       }
       else {
          System.out.println("Must at least deposit 200 DKr.");
@@ -46,15 +52,16 @@ public class Customer {
    
    public void returnExit(){
    
-      System.out.println("Do you want to RETURN or EXIT?");
+      System.out.println("Do you want to EXIT?");
+      System.out.println("\t1. yes\n\t2. no");
       Scanner scanner = new Scanner(System.in);
-      String Continue = scanner.nextLine();
+      int Continue = scanner.nextInt();
       
-      if(Continue.equals("exit")){
+      if(Continue == 2){
          
          this.run = 0;
          
-      } else if(Continue.equals("return")) {
+      } else if(Continue == 1) {
       
          this.run = 1;
       
@@ -69,28 +76,28 @@ public class Customer {
    public void mainMenu(){
    
       System.out.println("MAIN MENU: Please select one of the following options...");
-      System.out.println("Recharge Washcard | Get balance | Buy wash | Show statistics");
+      System.out.println("\t1. Recharge Washcard\n\t2. Get balance\n\t3. Buy wash\n\t4. Show statistics\n\t5. Exit");
       Scanner scanner = new Scanner(System.in);
-      String action = scanner.nextLine();
+      int action = scanner.nextInt();
       
-      switch(action.toLowerCase()) {
-         case "recharge":
+      switch(action) {
+         case 1:
             rechargeWashcard();
-            returnExit();
+            //returnExit();
             break;
-         case "balance":
+         case 2:
             getBalance();
-            returnExit();
+            //returnExit();
             break;
-         case "buywash":
+         case 3:
             //Buy wash
-            returnExit();
+            //returnExit();
             break;
-         case "statistic":
+         case 4:
             //Show statistics
-            returnExit();
+            //returnExit();
             break;
-         case "exit":
+         case 5:
             this.run = 0;
             break;
          default: 

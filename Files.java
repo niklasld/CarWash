@@ -54,7 +54,7 @@ public class Files {
                String ID = scanFile.next();
                int balance = scanFile.nextInt();
                
-               System.out.printf("ID: %s Balance: %s \n", ID, balance);
+               System.out.printf("ID: %s Balance: %s Pin: %s \n", ID, balance, pin);
             }
             break;
       
