@@ -7,10 +7,8 @@ public class Customer {
    private static int run = 0;
    
    public Customer(int cardBalance, int ID, int pin) {
-      if(cardBalance>=200) {
          Files file = new Files();
          file.openFile("Customers.txt");
-
          //Random generator = new Random();
          //this.pin = generator.nextInt(10000);
          String balance = Integer.toString(cardBalance);
@@ -19,14 +17,35 @@ public class Customer {
          this.cardBalance = cardBalance;
          this.ID = ID;    
          this.pin = pin; 
-      }
-      else {
-         System.out.println("Must at least deposit 200 DKr.");
-      }     
-   }
+   }     
    
-   public void buyWash() {
-      //TODO
+   public void buyWash(Washtypes[] washes) {
+      int i = 0;
+      int count = 0;
+      while(washes[i]!=null) {
+         System.out.println(i+". "+washes[i].getName().replace("_", " ")+" ("+washes[i].getPrice()+ " DKr)");
+         System.out.println(washes[i].getFeatures().replace("_", " ")+"\n");
+         i++;
+      }
+      
+      
+      System.out.println("Please select the kind of wash you want to buy...");
+      Scanner scanner = new Scanner(System.in);
+      int washType = scanner.nextInt();
+      
+      System.out.println("You have chosen wash: "+washes[washType].getName().replace("_", " "));
+      System.out.println("Price is "+washes[washType].getPrice()+" DKr\n");
+      
+      System.out.println("Continue?");
+      System.out.println("1. yes \n2. no");
+      
+      int confirmWash = scanner.nextInt();
+      if(confirmWash==1) {
+         this.cardBalance -= washes[washType].getPrice();
+         System.out.println(washes[washType].getPrice()+" Have been drawed from your card balance\nNew balance: "+cardBalance);
+      } else {
+         System.out.println("Okay, wash canceled");
+      }
    }
    
    public void rechargeWashcard() {
@@ -34,7 +53,7 @@ public class Customer {
       System.out.println("Please select the amount you want to recharge your washcard with...");
       
       Scanner scanner = new Scanner(System.in);
-      double amount = scanner.nextDouble();
+      int amount = scanner.nextInt();
       
       if(amount>=200) {
          this.cardBalance += amount;
@@ -108,36 +127,37 @@ public class Customer {
             customer[i].setRun(1);
             match = i;  
          }
+
          
       }
       return match;
    }
    
-   public void mainMenu(){
+   public void mainMenu(Washtypes[] washes){
    
       System.out.println("MAIN MENU: Please select one of the following options...");
       System.out.println("\t1. Recharge Washcard\n\t2. Get balance\n\t3. Buy wash\n\t4. Show statistics\n\t5. Exit");
       Scanner scanner = new Scanner(System.in);
-      int action = scanner.nextInt();
+      String action = scanner.next();
       
       switch(action) {
-         case 1:
+         case "1":
             rechargeWashcard();
             //returnExit();
             break;
-         case 2:
+         case "2":
             getBalance();
             //returnExit();
             break;
-         case 3:
-            //Buy wash
+         case "3":
+            buyWash(washes);
             //returnExit();
             break;
-         case 4:
+         case "4":
             //Show statistics
             //returnExit();
             break;
-         case 5:
+         case "5":
             this.run = 0;
             break;
          default: 

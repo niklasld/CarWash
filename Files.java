@@ -10,9 +10,10 @@ public class Files {
    //method for creating new files
    public void createFile() {
       //creates 2 formatter objects, these are final(cannot be changed)
-      final Formatter washStats, users;
+      final Formatter washStats, users, washTypes;
       File StatsFile = new File("Washstats.txt");
       File usersFile = new File("Customers.txt");
+      File washTypeFile = new File("Washtypes.txt");
 
       //checks if the Washstats.txt file exists, it it doesnt it will try and create the file
       if(!StatsFile.exists()) {
@@ -32,6 +33,14 @@ public class Files {
             System.out.println("Error creating file Customers.txt");
          }
       }
+      if(!StatsFile.exists()) {
+         try {
+            washTypes = new Formatter("Washtypes.txt");
+         }
+         catch(Exception e) {
+            System.out.println("Error creating file Washtypes.txt");
+         }
+      }
    }
    
    //Creates the method openfile, used for opening file, input is the name of the file to open
@@ -45,7 +54,7 @@ public class Files {
    }
    
    //creates the method readFile takes the input(type) to use in the switch case so that it knows what file its working with
-   public void readFile(String type, Customer[] customer) {
+   public void readFile(String type, Customer[] customer, Washtypes[] washes) {
       switch(type) {
          case "Customers" :
             int i = 0;
@@ -74,18 +83,20 @@ public class Files {
             }      
             break;
          
-         case "Washtypes":
+         case "Washes":
             System.out.println("Washes: ");
+            int count = 0;
             while(scanFile.hasNext()) {
-            
-               String ID = scanFile.next();
-               String firstName = scanFile.next();
-               String lastName = scanFile.next();
-               String sex = scanFile.next();
-               String age = scanFile.next();
-               
-               System.out.printf("%s %s %s %s %s\n", ID, firstName, lastName, sex, age);
-            }         
+               String name = scanFile.next();
+               int price = scanFile.nextInt();
+               String features = scanFile.next();
+               washes[count] = new Washtypes(name, price, features);
+               count++;
+               //System.out.println("Name:\t"+name.replace("_", " "));
+               //System.out.println("Price:\t"+price);
+               //System.out.println("Features:\t"+features.replace("_", " "));
+               //System.out.println("");
+            }                   
             break;
          
          default:
@@ -97,18 +108,18 @@ public class Files {
       scanFile.close();
    }
    
-   public void addToFile(String type, int ID, String washType, String features, String price, int balance, int pin) {
+   public void addToFile(String type, int ID, String washName, String features, int price, int balance, int pin) {
       if(type == "Washstats") {
-         try {
+         /*try {
             FileWriter fileW = new FileWriter(type+".txt",true);
             BufferedWriter buffW = new BufferedWriter(fileW);
-            buffW.write(ID+" "+washType+" "+price+"\n");
+            buffW.write(ID+" "+washName+" "+price+"\n");
             buffW.close();
             System.out.println("Wrote to file "+type+".txt");
          }
          catch (Exception e) {
             e.printStackTrace();
-         }
+         }*/
       }
       else if(type == "Customers") {
          try {
@@ -122,13 +133,13 @@ public class Files {
             e.printStackTrace();
          }     
       }
-      else if(type == "Washes") {
+      else if(type == "Washtypes") {
          try {
             FileWriter fileW = new FileWriter(type+".txt",true);
             BufferedWriter buffW = new BufferedWriter(fileW);
-            buffW.write(ID+" "+washType+" "+features+" "+price+"\n");
+            buffW.write(washName+" "+price+" "+features+"\n");
             buffW.close();
-            System.out.println("Wrote to file "+type+".txt");
+            //System.out.println("Wrote to file "+type+".txt");
          }
          catch (Exception e) {
             e.printStackTrace();
