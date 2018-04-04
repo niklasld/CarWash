@@ -4,20 +4,21 @@ public class Customer {
    private int cardBalance = 0;
    private int ID = 0;
    private int pin;
-   private int run = 1;
+   private static int run = 0;
    
-   public Customer(int cardBalance, String ID) {
+   public Customer(int cardBalance, int ID, int pin) {
       if(cardBalance>=200) {
          Files file = new Files();
          file.openFile("Customers.txt");
-         //this.cardBalance = cardBalance;
-         //this.ID = ID;
-         Random generator = new Random();
-         this.pin = generator.nextInt(10000);
-         System.out.println(pin);
+
+         //Random generator = new Random();
+         //this.pin = generator.nextInt(10000);
          String balance = Integer.toString(cardBalance);
-         file.addToFile("Customers",ID,"","","",balance,this.pin);
-         file.closeFile();     
+         //file.addToFile("Customers",ID,"","","",balance,this.pin);
+         file.closeFile();
+         this.cardBalance = cardBalance;
+         this.ID = ID;    
+         this.pin = pin; 
       }
       else {
          System.out.println("Must at least deposit 200 DKr.");
@@ -49,8 +50,21 @@ public class Customer {
       System.out.println("Your card balance is: " + cardBalance + " DKr");
    }
    
+   public int getID() {
+      return ID;
+   }
+   public int getPin() {
+      return pin;
+   }
+   
    public int getRun(){
       return run;
+   }
+   public void setRun(int input) {
+      this.run = input;
+   }
+   public int getCardBalance() {
+      return cardBalance;
    }
    
    public void returnExit(){
@@ -74,6 +88,29 @@ public class Customer {
          
       }
    
+   }
+   
+   public static int login(Customer[] customer) {
+      System.out.println("Login: Please type in ID: ");
+      Scanner scanner = new Scanner(System.in);
+      int ID = scanner.nextInt();
+      int match = 20000;
+      
+      System.out.println("Password: Please type in your pincode: ");
+      int pincode = scanner.nextInt();
+      
+      for(int i = 0; i<customer.length;i++) {
+         //System.out.println("ID: "+customer[i].getPin());
+         if(customer[i]==null) {
+            i = 101;
+         }
+         else if(customer[i].getID() == ID && customer[i].getPin() == pincode) {
+            customer[i].setRun(1);
+            match = i;  
+         }
+         
+      }
+      return match;
    }
    
    public void mainMenu(){

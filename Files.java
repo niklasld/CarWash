@@ -5,7 +5,7 @@ import static java.nio.file.StandardOpenOption.*;
 import java.nio.file.*;
 
 public class Files {
-   private Scanner scanFile;
+   Scanner scanFile;
    
    //method for creating new files
    public void createFile() {
@@ -45,14 +45,17 @@ public class Files {
    }
    
    //creates the method readFile takes the input(type) to use in the switch case so that it knows what file its working with
-   public void readFile(String type) {
+   public void readFile(String type, Customer[] customer) {
       switch(type) {
          case "Customers" :
+            int i = 0;
             //System.out.println("Customers: ");
             while(scanFile.hasNext()) {
-               String ID = scanFile.next();
+               int ID = scanFile.nextInt();
                int balance = scanFile.nextInt();
                int pin = scanFile.nextInt();
+               customer[i] = new Customer(balance, ID, pin);
+               i++;
                //System.out.printf("ID: %s Balance: %s Pin: %s \n",ID, balance, pin);
             }
             break;
@@ -94,7 +97,7 @@ public class Files {
       scanFile.close();
    }
    
-   public void addToFile(String type, String ID, String washType, String features, String price, String balance, int pin) {
+   public void addToFile(String type, int ID, String washType, String features, String price, int balance, int pin) {
       if(type == "Washstats") {
          try {
             FileWriter fileW = new FileWriter(type+".txt",true);
@@ -113,7 +116,7 @@ public class Files {
             BufferedWriter buffW = new BufferedWriter(fileW);
             buffW.write(ID+" "+balance+" "+pin+"\n");
             buffW.close();
-            System.out.println("Wrote to file "+type+".txt");
+            //System.out.println("Wrote to file "+type+".txt");
          }
          catch (Exception e) {
             e.printStackTrace();
@@ -130,6 +133,18 @@ public class Files {
          catch (Exception e) {
             e.printStackTrace();
          }     
+      }
+   }
+   public void clearFile(String fileName) {
+      try {
+         FileWriter fileW = new FileWriter(fileName+".txt");
+         BufferedWriter buffW = new BufferedWriter(fileW);
+         buffW.write("");
+         buffW.close();
+         //System.out.println("Wrote to file "+type+".txt");
+      }
+      catch (Exception e) {
+         e.printStackTrace();
       }
    }
 }
