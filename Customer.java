@@ -19,7 +19,17 @@ public class Customer {
          this.pin = pin; 
    }     
    
-   public void buyWash(Washtypes[] washes) {
+   public void showStats(Washstats[] stats) {
+      int i = 0;
+      System.out.println("\nPurchase history:");
+      while(stats[i]!=null) {
+         if(stats[i].getCustomerID()==ID) {  
+            System.out.printf("Date:\t\t\t"+stats[i].getDate().toString().replace("_"," ")+"\nWashname:\t"+stats[i].getType().toString().replace("_"," ")+"\nPrice:\t\t"+stats[i].getPrice()+"\n\n");
+         }
+      i++;
+      }
+   }
+   public void buyWash(Washtypes[] washes, Washstats[] stats) {
       int i = 0;
       int count = 0;
       while(washes[i]!=null) {
@@ -47,8 +57,22 @@ public class Customer {
                System.out.println("Your current balance is "+this.cardBalance+" and the balance is not high enough to buy this wash");
             }
             else {
+               Date newDate = new Date();
                this.cardBalance -= washes[washType].getPrice();
                System.out.println(washes[washType].getPrice()+" Have been drawed from your card balance\nNew balance: "+cardBalance);  
+               //Files file = new Files();
+               //file.openFile("Washstats.txt");
+               //file.addStat("Washstats", ID, washes[washType].getName(), washes[washType].getPrice());
+               int y = 0;
+               while(stats[y]!=null) {
+                  y++;
+               }
+               if(stats[y]==null) {
+                  Date getDate = new Date();
+                  stats[y] = new Washstats(getDate.toString().replace(" ","_"), washes[washType].getName(),washes[washType].getPrice(), ID);
+               }
+               System.out.println("\nPuchase complete\n\nReceipt:");
+               System.out.println("Wash purchased:\t"+washes[washType].getName().replace("_"," ")+"\nPrice:\t\t\t\t"+washes[washType].getPrice()+"\nDate:\t\t\t\t\t"+newDate+"\n");
             }
          } 
          else if(confirmWash.equals("2")){
@@ -124,17 +148,42 @@ public class Customer {
    
    }
    
-   public static int login(Customer[] customer) {
+   public static void adminLogin(Washstats[] stats) {
+      System.out.println("Admin logon, type in name: ");
+
+      Scanner scanner = new Scanner(System.in);
+      String name = scanner.next();
+      
+      System.out.println("Type in password: ");
+      String pass = scanner.next();
+      
+      if(name.equals("admin") && pass.equals("admin")) {
+         int i = 0;
+         System.out.println("Printing wash statistics");
+         while(stats[i]!=null) {
+            System.out.println("Date: "+stats[i].getDate().toString().replace("_"," ")+"Name: "+stats[i].getType().toString().replace("_"," ")+"Customer ID: "+stats[i].getCustomerID());
+            i++;
+         }
+         
+      }
+      else {
+         System.out.println("Wrong username or password");
+      }
+   }
+   public static int login(Customer[] customer, Washstats[] stats) {
       System.out.println("Login: Please type in ID: ");
+      System.out.println("To log in as Admin set id to -1");
       Scanner scanner = new Scanner(System.in);
       int ID = scanner.nextInt();
       int match = 20000;
       
       System.out.println("Password: Please type in your pincode: ");
       int pincode = scanner.nextInt();
-      
+      if(ID == -1) {
+         adminLogin(stats);
+      }   
       for(int i = 0; i<customer.length;i++) {
-         //System.out.println("ID: "+customer[i].getPin());
+         //System.out.println("ID: "+customer[i].getPin());      
          if(customer[i]==null) {
             i = 101;
          }
@@ -148,7 +197,7 @@ public class Customer {
       return match;
    }
    
-   public void mainMenu(Washtypes[] washes){
+   public void mainMenu(Washtypes[] washes, Washstats[] stats){
    
       System.out.println("MAIN MENU: Please select one of the following options...");
       System.out.println("\t1. Recharge Washcard\n\t2. Get balance\n\t3. Buy wash\n\t4. Show statistics\n\t5. Exit");
@@ -165,11 +214,11 @@ public class Customer {
             //returnExit();
             break;
          case "3":
-            buyWash(washes);
+            buyWash(washes, stats);
             //returnExit();
             break;
          case "4":
-            //Show statistics
+            showStats(stats);
             //returnExit();
             break;
          case "5":

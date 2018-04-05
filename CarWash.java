@@ -5,43 +5,52 @@ import static java.nio.file.StandardOpenOption.*;
 import java.nio.file.*;
 
 public class CarWash {
+   
    public static void main(String[] args) {
-      int i = 0;
+   
       Customer customer[] = new Customer[100];
       Washtypes washes[] = new Washtypes[100];
-      Washstats stats[] = new Washstats[1000000];
+      Washstats stats[] = new Washstats[10000000];
       Files file = new Files();
       file.createFile();
-
-      file.openFile("Customers.txt");
-      file.readFile("Customers", customer, washes);
-      file.openFile("Washtypes.txt");
-      file.readFile("Washes", customer, washes);
-      file.openFile("Washstats.txt");
       
-      int match = customer[0].login(customer);
+      file.openFile("Customers.txt");
+      file.readFile("Customers", customer, washes, stats);
+      file.openFile("Washtypes.txt");
+      file.readFile("Washes", customer, washes, stats);
+      file.openFile("Washstats.txt");
+      file.readFile("Washstats", customer, washes, stats);
+      
+      int match = customer[0].login(customer, stats);
       while(match==20000) {
          System.out.println("login Error");
-         match = customer[0].login(customer);
+         match = customer[0].login(customer, stats);
       }
       while(customer[match].getRun()==1) {
-            customer[match].mainMenu(washes);
+            customer[match].mainMenu(washes, stats);
       }
-      i=0;
-      file.closeFile();
+
       file.clearFile("Customers");
       file.clearFile("Washtypes");
-      
+      file.clearFile("Washstats");      
+      int i = 0;  
       while(customer[i]!=null){
-         file.addToFile("Customers",customer[i].getID(),"","",0,customer[i].getCardBalance(),customer[i].getPin());
+         file.addToFile("Customers",customer[i].getID(),"","",0,customer[i].getCardBalance(),customer[i].getPin(),"",0);
          i++;
       }
       
       i=0;
       while(washes[i]!=null) {
-         file.addToFile("Washtypes", 0,washes[i].getName(), washes[i].getFeatures(), washes[i].getPrice(),0,0);
+         file.addToFile("Washtypes", 0,washes[i].getName(), washes[i].getFeatures(), washes[i].getPrice(),0,0,"",0);
          i++;
       }
       
+      i=0;
+      while(stats[i]!=null) {
+         file.addToFile("Washstats", 0, stats[i].getType(), "", stats[i].getPrice(), 0, 0, stats[i].getDate(), stats[i].getCustomerID());
+         i++;
+      }
+      file.closeFile();
+   
    }
 }

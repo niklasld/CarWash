@@ -54,7 +54,7 @@ public class Files {
    }
    
    //creates the method readFile takes the input(type) to use in the switch case so that it knows what file its working with
-   public void readFile(String type, Customer[] customer, Washtypes[] washes, ) {
+   public void readFile(String type, Customer[] customer, Washtypes[] washes, Washstats[] stats) {
       switch(type) {
          case "Customers" :
             int i = 0;
@@ -70,16 +70,19 @@ public class Files {
             break;
       
          case "Washstats" :
-            System.out.println("Washstats: ");
+            //System.out.println("Washstats: ");
+            int countstats=0;
             while(scanFile.hasNext()) {
             
-               String ID = scanFile.next();
-               String firstName = scanFile.next();
-               String lastName = scanFile.next();
-               String sex = scanFile.next();
-               String age = scanFile.next();
                
-               System.out.printf("%s %s %s %s %s\n", ID, firstName, lastName, sex, age);
+               String date = scanFile.next();
+               int customerID = scanFile.nextInt();
+               String statType = scanFile.next();
+               int price = scanFile.nextInt();
+               
+               stats[countstats] = new Washstats(date,statType,price,customerID);
+               countstats++;
+               //System.out.printf(date+" "+statType+" "+price);
             }      
             break;
          
@@ -108,18 +111,18 @@ public class Files {
       scanFile.close();
    }
    
-   public void addToFile(String type, int ID, String washName, String features, int price, int balance, int pin) {
+   public void addToFile(String type, int ID, String washName, String features, int price, int balance, int pin, String date, int custID) {
       if(type == "Washstats") {
-         /*try {
+         try {
             FileWriter fileW = new FileWriter(type+".txt",true);
             BufferedWriter buffW = new BufferedWriter(fileW);
-            buffW.write(ID+" "+washName+" "+price+"\n");
+            buffW.write(date+" "+custID+" "+washName+" "+price+"\n");
             buffW.close();
-            System.out.println("Wrote to file "+type+".txt");
+            //System.out.println("Wrote to file "+type+".txt");
          }
          catch (Exception e) {
             e.printStackTrace();
-         }*/
+         }
       }
       else if(type == "Customers") {
          try {
@@ -146,6 +149,22 @@ public class Files {
          }     
       }
    }
+   
+   public void addStat(String type, int ID, String  washName, int price) {
+      try {
+         Date getDate = new Date();
+         String date = getDate.toString(); 
+         FileWriter fileW = new FileWriter(type+".txt",true);
+         BufferedWriter buffW = new BufferedWriter(fileW);
+         buffW.write(date.replace(" ", "_")+" "+ID+" "+washName+" "+price+"\n");
+         buffW.close();
+         //System.out.println("Wrote to file "+type+".txt");
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+   }
+   
    public void clearFile(String fileName) {
       try {
          FileWriter fileW = new FileWriter(fileName+".txt");
