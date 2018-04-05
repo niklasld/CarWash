@@ -169,19 +169,16 @@ public class Customer {
       else {
          System.out.println("Wrong username or password");
       }
+      run = 0;
    }
    public static int login(Customer[] customer, Washstats[] stats) {
       System.out.println("Login: Please type in ID: ");
-      System.out.println("To log in as Admin set id to -1");
       Scanner scanner = new Scanner(System.in);
       int ID = scanner.nextInt();
       int match = 20000;
       
       System.out.println("Password: Please type in your pincode: ");
-      int pincode = scanner.nextInt();
-      if(ID == -1) {
-         adminLogin(stats);
-      }   
+      int pincode = scanner.nextInt();  
       for(int i = 0; i<customer.length;i++) {
          //System.out.println("ID: "+customer[i].getPin());      
          if(customer[i]==null) {
@@ -197,41 +194,33 @@ public class Customer {
       return match;
    }
    
-   public void startMenu(Customer[] customer, Washstats[] stats){
-      
-      System.out.println("WELCOME TO F27 CARWASH: Please select one of the following options...");
-      System.out.println("\t1. Existing costumer\n\t2. Buy washcard");
-      Scanner scanner = new Scanner(System.in);
-      String action = scanner.next();
-      //int match = 20000;
-      
-      switch(action) {
-         case "1":
-            login(customer, stats);
-            while(ID==0) {
-               System.out.println("login Error");
-               this.ID = login(customer, stats);
-               //return match;
-            }
-            //returnExit();
-            break;
-         case "2":
-            //buyWashcard
-            //returnExit();
-            //return 0;
-            break;
-         case "3":
-            adminLogin(stats);
-            //returnExit();
-            //return 0;
-            break;
-         default: 
-            System.out.println("Not a valid option... Please try again.");
-            //return 0;
-            break;
-      }
-      //return match;
-      
+   public void buyWashCard(Customer[] customer) {
+         System.out.println("Thank you for becomming a customer");
+         //int cardBalance, int ID, int pin
+         System.out.println("Please type in the amount you would like to deposit: (between 200-4000)");
+         Scanner scan = new Scanner(System.in);
+         int deposit= scan.nextInt();
+         if(deposit < 200 || deposit>4000) {
+            System.out.println("Please deposit an amount between 200 and 4000");
+            deposit = scan.nextInt();
+         }
+         
+         System.out.println("Please type in a pincode between 1000 and 9999");
+         int pin = scan.nextInt();
+         if(pin < 1000 || pin>9999) {
+            System.out.println("Please type a pin between 1000 and 9999");
+            pin = scan.nextInt();
+         }           
+         int y = 0;
+         while(customer[y]!=null) {
+            y++;
+         }
+         if(customer[y]==null) {
+            customer[y] = new Customer(deposit, y+1,pin);
+         }
+         int ID = y+1;
+         System.out.println("\nPuchase complete\n");
+         System.out.println("Your ID is: "+ID);           
    }
    
    public void mainMenu(Washtypes[] washes, Washstats[] stats){
