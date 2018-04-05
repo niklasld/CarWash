@@ -54,7 +54,7 @@ public class Files {
    }
    
    //creates the method readFile takes the input(type) to use in the switch case so that it knows what file its working with
-   public void readFile(String type, Customer[] customer, Washtypes[] washes) {
+   public void readFile(String type, Customer[] customer, Washtypes[] washes, ) {
       switch(type) {
          case "Customers" :
             int i = 0;
@@ -84,7 +84,7 @@ public class Files {
             break;
          
          case "Washes":
-            System.out.println("Washes: ");
+            //System.out.println("Washes: ");
             int count = 0;
             while(scanFile.hasNext()) {
                String name = scanFile.next();

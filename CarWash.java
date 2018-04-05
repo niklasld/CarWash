@@ -9,6 +9,7 @@ public class CarWash {
       int i = 0;
       Customer customer[] = new Customer[100];
       Washtypes washes[] = new Washtypes[100];
+      Washstats stats[] = new Washstats[1000000];
       Files file = new Files();
       file.createFile();
 
@@ -16,6 +17,7 @@ public class CarWash {
       file.readFile("Customers", customer, washes);
       file.openFile("Washtypes.txt");
       file.readFile("Washes", customer, washes);
+      file.openFile("Washstats.txt");
       
       int match = customer[0].login(customer);
       while(match==20000) {
@@ -25,15 +27,6 @@ public class CarWash {
       while(customer[match].getRun()==1) {
             customer[match].mainMenu(washes);
       }
-
-      /*while(customer[0].getRun() == 1) {
-         //System.out.println(customer[0].getRun());
-         customer[0].mainMenu();
-      }*/
-      
-      //customer[0].login(customer);
-      
-      //System.out.println(customer[0].getPin());
       i=0;
       file.closeFile();
       file.clearFile("Customers");
@@ -45,22 +38,10 @@ public class CarWash {
       }
       
       i=0;
-      //System.out.println(washes[1].getPrice());
       while(washes[i]!=null) {
          file.addToFile("Washtypes", 0,washes[i].getName(), washes[i].getFeatures(), washes[i].getPrice(),0,0);
          i++;
       }
-      
-      
-
-      //Johnny.rechargeWashcard();
-      
-     /* while(Johnny.getRun() == 1){
-         
-         System.out.println(Johnny.getRun());
-         Johnny.mainMenu();
-         
-      }*/
       
    }
 }

@@ -30,21 +30,36 @@ public class Customer {
       
       
       System.out.println("Please select the kind of wash you want to buy...");
+      System.out.println("Your current balance is "+cardBalance);
       Scanner scanner = new Scanner(System.in);
-      int washType = scanner.nextInt();
-      
-      System.out.println("You have chosen wash: "+washes[washType].getName().replace("_", " "));
-      System.out.println("Price is "+washes[washType].getPrice()+" DKr\n");
-      
-      System.out.println("Continue?");
-      System.out.println("1. yes \n2. no");
-      
-      int confirmWash = scanner.nextInt();
-      if(confirmWash==1) {
-         this.cardBalance -= washes[washType].getPrice();
-         System.out.println(washes[washType].getPrice()+" Have been drawed from your card balance\nNew balance: "+cardBalance);
-      } else {
-         System.out.println("Okay, wash canceled");
+      int washType = 999999;
+      try {
+         washType = scanner.nextInt();
+         System.out.println("You have chosen wash: "+washes[washType].getName().replace("_", " "));
+         System.out.println("Price is "+washes[washType].getPrice()+" DKr\n");
+         
+         System.out.println("Continue?");
+         System.out.println("1. yes \n2. no");
+         
+         String confirmWash = scanner.next();
+         if(confirmWash.equals("1")) {
+            if(this.cardBalance-washes[washType].getPrice() < 0) {
+               System.out.println("Your current balance is "+this.cardBalance+" and the balance is not high enough to buy this wash");
+            }
+            else {
+               this.cardBalance -= washes[washType].getPrice();
+               System.out.println(washes[washType].getPrice()+" Have been drawed from your card balance\nNew balance: "+cardBalance);  
+            }
+         } 
+         else if(confirmWash.equals("2")){
+            System.out.println("Okay, wash cancelled");
+         }
+         else {
+            System.out.println("Error in input\n");
+         }
+      }
+      catch(Exception e) {
+         System.out.println("Error in input\n");
       }
    }
    
