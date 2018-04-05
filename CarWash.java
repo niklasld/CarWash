@@ -21,13 +21,16 @@ public class CarWash {
       file.openFile("Washstats.txt");
       file.readFile("Washstats", customer, washes, stats);
       
-      int match = customer[0].login(customer, stats);
+      customer[0].startMenu(customer, stats);
+      int userID = customer[0].getID();
+      
+      /*int match = 
       while(match==20000) {
          System.out.println("login Error");
-         match = customer[0].login(customer, stats);
-      }
-      while(customer[match].getRun()==1) {
-            customer[match].mainMenu(washes, stats);
+         match = customer[0].startMenu(customer, stats);
+      }*/
+      while(customer[userID].getRun()==1) {
+            customer[userID].mainMenu(washes, stats);
       }
 
       file.clearFile("Customers");

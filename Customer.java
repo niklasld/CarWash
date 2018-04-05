@@ -197,6 +197,43 @@ public class Customer {
       return match;
    }
    
+   public void startMenu(Customer[] customer, Washstats[] stats){
+      
+      System.out.println("WELCOME TO F27 CARWASH: Please select one of the following options...");
+      System.out.println("\t1. Existing costumer\n\t2. Buy washcard");
+      Scanner scanner = new Scanner(System.in);
+      String action = scanner.next();
+      //int match = 20000;
+      
+      switch(action) {
+         case "1":
+            login(customer, stats);
+            while(ID==0) {
+               System.out.println("login Error");
+               this.ID = login(customer, stats);
+               //return match;
+            }
+            //returnExit();
+            break;
+         case "2":
+            //buyWashcard
+            //returnExit();
+            //return 0;
+            break;
+         case "3":
+            adminLogin(stats);
+            //returnExit();
+            //return 0;
+            break;
+         default: 
+            System.out.println("Not a valid option... Please try again.");
+            //return 0;
+            break;
+      }
+      //return match;
+      
+   }
+   
    public void mainMenu(Washtypes[] washes, Washstats[] stats){
    
       System.out.println("MAIN MENU: Please select one of the following options...");
